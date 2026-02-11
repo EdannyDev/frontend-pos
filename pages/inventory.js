@@ -181,6 +181,7 @@ export default function Products() {
       <Title>Gestión de Inventario</Title>
       <Notification message={notification.message} type={notification.type} />
 
+      {isAdmin && (
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <h2>{formMode === 'create' ? 'Crear Producto' : 'Editar Producto'}</h2>
@@ -262,6 +263,7 @@ export default function Products() {
           )}
         </ActionButtons>
       </Form>
+      )}
 
       <SearchWrapper>
         <SearchInputWrapper>
