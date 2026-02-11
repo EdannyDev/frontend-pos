@@ -16,6 +16,10 @@ import {
   ModalTitle,
   ModalButtonGroup,
   ModalButton,
+  DemoContainer,
+  DemoTitle,
+  DemoButtons,
+  DemoButton,
 } from '@/styles/login.styles'
 import Notification from '@/components/notification'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -77,6 +81,24 @@ export default function Login() {
     }
   };
 
+  const handleDemoLogin = async (role) => {
+  setNotification({ message: '', type: '' })
+  try {
+    const res = await axios.post('/users/demo-login', { role })
+    if (res.data.role) {
+      setNotification({ message: 'Accediendo en modo demo...', type: 'success' })
+      setTimeout(() => {
+        router.push('/dashboard')
+      }, 1500)
+    }
+  } catch (err) {
+    setNotification({
+      message: err.response?.data?.msg || 'Error en modo demo',
+      type: 'error',
+      })
+    }
+  }
+
   return (
     <LoginWrapper>
       <Form onSubmit={handleSubmit} noValidate>
@@ -112,6 +134,18 @@ export default function Login() {
         </InputGroup>
 
         <SubmitButton type="submit">Entrar</SubmitButton>
+
+        <DemoContainer>
+          <DemoTitle>Modo Demo</DemoTitle>
+          <DemoButtons>
+            <DemoButton type="button" onClick={() => handleDemoLogin('admin')}>
+              Probar como Admin
+            </DemoButton>
+            <DemoButton type="button" onClick={() => handleDemoLogin('seller')}>
+              Probar como Vendedor
+            </DemoButton>
+          </DemoButtons>
+        </DemoContainer>
 
         <LinksContainer>
           <span>

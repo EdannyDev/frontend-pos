@@ -300,3 +300,44 @@ export const ModalButton = styled.button`
     padding: 0.5rem 0.8rem;
   }
 `
+
+export const DemoContainer = styled.div`
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+`
+
+export const DemoTitle = styled.span`
+  text-align: center;
+  font-size: 0.9rem;
+  color: #888;
+`
+
+export const DemoButtons = styled.div`
+  display: flex;
+  gap: 0.6rem;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+`
+
+export const DemoButton = styled.button`
+  flex: 1;
+  padding: 0.6rem 0;
+  background: transparent;
+  border: 1px solid #00ffc3;
+  border-radius: 6px;
+  color: #00ffc3;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #00ffc3;
+    color: #111;
+  }
+`
