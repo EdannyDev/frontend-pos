@@ -1,46 +1,52 @@
-# 🕹️POS Gamer - Frontend  
+# 🕹️ POS Gamer – Frontend
 
-## 📌Descripción  
-**POS Gamer** es el frontend de un sistema de punto de venta (POS) para una tienda de tecnología y productos electrónicos gamer.  
+## 📌 Overview
 
-El sistema cuenta con **dos roles principales**:  
-- **Administrador (Admin):** puede gestionar inventario, ventas, usuarios y generar reportes.  
-- **Vendedor (Seller):** puede crear y consultar inventario y ventas.  
+POS Gamer Frontend is a Next.js application that provides a responsive and intuitive interface for managing a retail Point of Sale system.
 
-Este proyecto está diseñado para ofrecer una **experiencia fluida e intuitiva**, con reportes visuales para el análisis de ventas.
+It communicates securely with the backend API and enforces client-side route protection based on user roles.
 
-## 🛠️Tecnologías utilizadas  
+## 🎨 UI & Architecture
 
-- **Framework:** Next.js  
-- **Gestión de datos / API:** Axios  
-- **Estilos:** Emotion Styled  
-- **Iconos:** FontAwesome  
-- **Gráficas y reportes:** Recharts  
-- **Gestor de paquetes:** Yarn  
+The frontend follows a modular structure:
 
-## ⚙️Instalación y ejecución  
+- Pages organized by feature
+- Reusable components
+- Axios-based API communication
+- Protected routes based on authentication state
+- Dynamic reporting dashboards
+
+The application emphasizes usability and clean UI design.
+
+## 🔐 Authentication Handling
+
+- Secure session handling via HttpOnly cookies (managed by backend)
+- Role-based UI rendering
+- Protected pages for Admin and Seller
+- Automatic redirection for unauthorized access
+
+## 📊 Core Features
+
+- Inventory management interface
+- Sales registration module
+- User management dashboard
+- Interactive reports using charts
+- Responsive layout
+
+## 🛠 Tech Stack
+
+`Next.js` · `React` · `Axios`
+
+`Recharts` · `Emotion Styled` · `FontAwesome`
+
+## 🌐 Live Demo
+
+**Deploy: https://techno-pos.vercel.app** 
+
+## ⚙️ Local Setup
 
 ```bash
-# 1. Clonar el repositorio
 git clone https://github.com/EdannyDev/pos-app.git
-
-# 2. Instalar dependencias
 yarn install
-
-# 3. Ejecutar la aplicación
 yarn dev
-
-# 4. Abrir en el navegador
-http://localhost:3000
-
-````
-
-## ✨Características principales
-- Gestión de inventario: productos gamer/tecnología.
-- Registro y control de ventas.
-- Gestión de usuarios y roles: Admin y Seller.
-- Generación de reportes visuales con gráficas.
-- Interfaz intuitiva y responsiva.
-
-## 🔗Enlaces útiles
-Backend: https://github.com/EdannyDev/backend-pos
+```
