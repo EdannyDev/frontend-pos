@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from '@/services/axios';
 import '@/styles/globals.css';
 
-const publicPaths = ['/login', '/register'];
+const publicPaths = ['/login', '/register', '/resetPassword'];
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
@@ -12,7 +12,11 @@ export default function App({ Component, pageProps }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    if (publicPaths.includes(router.pathname)) {
+    const isPublicPath = publicPaths.some((path) =>
+      router.pathname.startsWith(path)
+    );
+
+    if (isPublicPath) {
       setIsAuthenticated(false);
       setLoading(false);
       return;
@@ -33,6 +37,10 @@ export default function App({ Component, pageProps }) {
     validateSession();
   }, [router.pathname]);
 
+  const isPublicPath = publicPaths.some((path) =>
+    router.pathname.startsWith(path)
+  );
+
   if (loading) {
     return (
       <div
@@ -51,11 +59,11 @@ export default function App({ Component, pageProps }) {
     );
   }
 
-  if (!isAuthenticated && !publicPaths.includes(router.pathname)) {
+  if (!isAuthenticated && !isPublicPath) {
     return null;
   }
 
-  if (publicPaths.includes(router.pathname)) {
+  if (isPublicPath) {
     return <Component {...pageProps} />;
   }
 

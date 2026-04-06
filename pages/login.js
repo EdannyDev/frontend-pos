@@ -54,47 +54,37 @@ export default function Login() {
   }
 
   const handlePasswordReset = async () => {
-  setNotification({ message: '', type: '' });
-  try {
-    const res = await axios.post('/users/temp-password', { email: resetEmail });
-    const hasTempPassword = !!res.data.tempPassword;
-    setNotification({
-      message: hasTempPassword
-        ? `Contraseña temporal: ${res.data.tempPassword}`
-        : res.data.msg,
-      type: 'success',
-    });
-
-    if (!hasTempPassword) {
+    setNotification({ message: '', type: '' })
+    try {
+      await axios.post('/users/forgot-password', { email: resetEmail })
+      setNotification({ message: 'Si el correo está registrado, recibirás instrucciones', type: 'success' })
+      setShowResetModal(false)
+      setResetEmail('')
       setTimeout(() => {
-        setNotification({ message: '', type: '' });
-      }, 3000);
+        setNotification({ message: '', type: '' })
+      }, 3000)
+    } catch (err) {
+      setNotification({
+        message: err.response?.data?.msg || 'Error al enviar correo',
+        type: 'error',
+      })
     }
-
-    setShowResetModal(false);
-    setResetEmail('');
-  } catch (err) {
-    setNotification({
-      message: err.response?.data?.msg || 'Error al generar contraseña temporal',
-      type: 'error',
-      });
-    }
-  };
+  }
 
   const handleDemoLogin = async (role) => {
-  setNotification({ message: '', type: '' })
-  try {
-    const res = await axios.post('/users/demo-login', { role })
-    if (res.data.role) {
-      setNotification({ message: 'Accediendo en modo demo...', type: 'success' })
-      setTimeout(() => {
-        router.push('/dashboard')
-      }, 1500)
-    }
-  } catch (err) {
-    setNotification({
-      message: err.response?.data?.msg || 'Error en modo demo',
-      type: 'error',
+    setNotification({ message: '', type: '' })
+    try {
+      const res = await axios.post('/users/demo-login', { role })
+      if (res.data.role) {
+        setNotification({ message: 'Accediendo en modo demo...', type: 'success' })
+        setTimeout(() => {
+          router.push('/dashboard')
+        }, 1500)
+      }
+    } catch (err) {
+      setNotification({
+        message: err.response?.data?.msg || 'Error en modo demo',
+        type: 'error',
       })
     }
   }
@@ -167,6 +157,7 @@ export default function Login() {
         <ModalOverlay>
           <ModalContent>
             <ModalTitle>Restablecer contraseña</ModalTitle>
+
             <InputGroup>
               <FontAwesomeIcon icon={faEnvelope} />
               <Input
@@ -178,20 +169,22 @@ export default function Login() {
                 required
               />
             </InputGroup>
+
             <ModalButtonGroup>
               <ModalButton cancel onClick={() => setShowResetModal(false)}>
                 <FontAwesomeIcon icon={faTimes} />
-              Cancelar
+                Cancelar
               </ModalButton>
+
               <ModalButton onClick={handlePasswordReset}>
                 <FontAwesomeIcon icon={faPaperPlane} />
-              Enviar
+                Enviar
               </ModalButton>
             </ModalButtonGroup>
           </ModalContent>
         </ModalOverlay>
       )}
-
+      
       <Notification message={notification.message} type={notification.type} />
     </LoginWrapper>
   )

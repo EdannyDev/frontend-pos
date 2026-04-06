@@ -41,13 +41,13 @@ export const Form = styled.form`
 
   @media (max-width: 768px) {
     padding: 2rem 2rem;
-    width: 100%; /* Full width para tablets */
+    width: 100%;
     max-width: 320px;
   }
 
   @media (max-width: 480px) {
     padding: 1.5rem 1.5rem;
-    max-width: 100%; /* Full ancho móvil */
+    max-width: 100%;
   }
 `
 
