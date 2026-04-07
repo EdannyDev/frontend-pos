@@ -1,14 +1,19 @@
-import { faCheckCircle, faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCheckCircle, faExclamationCircle, faExclamationTriangle, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { NotificationContainer, Icon } from '@/styles/notification.styles'
 
-export default function Notification({ message, type }) {
+export default function Notification({ message, type, isStacked = false }) {
   if (!message) return null
 
-  const icon = type === 'success' ? faCheckCircle : faExclamationCircle
+  const iconMap = {
+    success: faCheckCircle,
+    error: faExclamationCircle,
+    warning: faExclamationTriangle,
+    info: faInfoCircle
+  }
 
   return (
-    <NotificationContainer type={type}>
-      <Icon icon={icon} type={type} />
+    <NotificationContainer type={type} isStacked={isStacked}>
+      <Icon icon={iconMap[type] || faInfoCircle} type={type} />
       {message}
     </NotificationContainer>
   )

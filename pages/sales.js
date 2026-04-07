@@ -31,7 +31,7 @@ export default function Sales() {
   const [formPaymentMethod, setFormPaymentMethod] = useState('efectivo');
   const [formStatus, setFormStatus] = useState('completada');
   const [formProducts, setFormProducts] = useState([]);
-  const [notification, setNotification] = useState({ message: '', type: 'success' });
+  const [notifications, setNotifications] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [saleToDelete, setSaleToDelete] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -39,9 +39,10 @@ export default function Sales() {
   const itemsPerPage = 5;
 
   const showNotification = (message, type = 'success', duration = 3000) => {
-    setNotification({ message, type });
-    setTimeout(() => {
-      setNotification({ message: '', type: 'success' });
+  const id = Date.now() + Math.random();
+  setNotifications(prev => [...prev, { id, message, type }]);
+  setTimeout(() => {
+      setNotifications(prev => prev.filter(n => n.id !== id));
     }, duration);
   };
 
@@ -115,8 +116,14 @@ export default function Sales() {
 
   try {
     if (formMode === 'create') {
-      await axios.post('/sales', payload, { withCredentials: true });
-      showNotification('Venta creada correctamente', 'success');
+      const res = await axios.post('/sales', payload, { withCredentials: true });
+      showNotification(res.data.msg, 'success');
+
+      if (res.data.alerts) {
+        res.data.alerts.forEach(alert => {
+          showNotification(alert.msg, 'warning', 8000);
+        });
+      }
     } else if (formMode === 'edit' && formId) {
       await axios.put(`/sales/${formId}`, payload, { withCredentials: true });
       showNotification('Venta actualizada correctamente', 'success');
@@ -206,7 +213,28 @@ export default function Sales() {
   return (
     <SalesContainer>
       <Title>Gestión de Ventas</Title>
-      <Notification message={notification.message} type={notification.type} />
+      <div
+        style={{
+          position: 'fixed',
+          top: '1.5rem',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 9999,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '0.75rem'
+        }}
+      >
+        {notifications.map((n) => (
+          <Notification
+            key={n.id}
+            message={n.message}
+            type={n.type}
+            isStacked
+          />
+        ))}
+      </div>
 
       <Form onSubmit={handleSubmit}>
         <FormGroup>
