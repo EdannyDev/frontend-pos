@@ -56,7 +56,7 @@ The application emphasizes clarity, responsiveness and operational usability.
 ### Installation
 
 ```bash
-git clone https://github.com/EdannyDev/pos-app.git
+git clone https://github.com/EdannyDev/frontend-pos.git
 cd pos-app
 yarn install
 ```
